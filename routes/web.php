@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ExamResultController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\HomeController;
 
@@ -25,6 +26,7 @@ Auth::routes();
 Route::namespace('App\Http\Controllers')->group(function () {
     Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/exam-user', [ExamResultController::class, 'examResult'])->name('exam-user');
     });
 });
 
