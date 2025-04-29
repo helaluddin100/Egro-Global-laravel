@@ -37,7 +37,7 @@ class ExamResultController extends Controller
      */
     public function store(Request $request)
     {
-        // ইনপুট ভ্যালিডেশন
+        // Input validation
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -49,24 +49,35 @@ class ExamResultController extends Controller
             'result_points' => 'nullable|string|max:255',
         ]);
 
-        // ডাটা সেভ করা
-        $examResult = ExamResult::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'company_name' => $request->company_name,
-            'location' => $request->location,
-            'designation' => $request->designation,
-            'employe_based' => $request->employe_based,
-            'result_points' => $request->result_points,
-        ]);
+        // Save the data
+        try {
+            $examResult = ExamResult::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'company_name' => $request->company_name,
+                'location' => $request->location,
+                'designation' => $request->designation,
+                'employe_based' => $request->employe_based,
+                'result_points' => $request->result_points,
+            ]);
 
-        // রেসপন্স প্রদান
-        return response()->json([
-            'success' => true,
-            'result_points' => $examResult->result_points,
-        ]);
+            // If successful, return a success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Data submitted successfully!',
+                'result_points' => $examResult->result_points,
+            ], 200);  // 200 indicates a successful request
+        } catch (\Exception $e) {
+            // In case of any error during the process
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to submit data. Please try again.',
+                'error' => $e->getMessage(),
+            ], 500);  // 500 indicates a server error
+        }
     }
+
 
     /**
      * Display the specified resource.
