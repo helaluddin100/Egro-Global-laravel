@@ -41,7 +41,7 @@ class ExamResultController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:exam_results,email',
+            'email' => 'required|email',
             'company_name' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
             'designation' => 'nullable|string|max:255',
