@@ -37,17 +37,24 @@ class ExamResultController extends Controller
      */
     public function store(Request $request)
     {
+        // Validation error custom messages
+        $messages = [
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email must be a valid email address.',
+            'email.unique' => 'This email has already been used to submit responses. Please check your inbox for the recommendations.',
+        ];
+
         // Input validation
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:exam_results,email',
             'company_name' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
             'designation' => 'nullable|string|max:255',
             'employe_based' => 'nullable|string|max:255',
             'result_points' => 'nullable|string|max:255',
-        ]);
+        ], $messages);
 
         // Save the data
         try {
